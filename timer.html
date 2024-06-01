@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Droid+Sans" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto" />
+    <title>Timer</title>
+    <style>
+        /* Customize the styling as needed */
+        body {
+            font-family: 'Roboto', sans-serif; /* Use Roboto font */
+            background-color: transparent; /* Set a transparent background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Center vertically */
+            margin: 0px auto;
+            overflow: hidden;
+        }
+        #countdown {
+            font-size: 90px; /* Increase font size */
+            color: #FFF788; /* Default pastel yellow color */
+            text-shadow: 4px 4px 6px black, -4px 4px 6px black, -4px -4px 6px black, 4px -4px 6px black, 4px 0px 6px black, -4px 0px 6px black, 0px 4px 6px black, 0px -4px 6px black; /* Add a black outline */
+            text-align: center; /* Center horizontally */
+            overflow: hidden; /* Hide scrollbars */
+            font-weight: bold;
+            padding: 15px; /* Add padding to allow for blurry shadow */
+        }
+    </style>
+</head>
+<body>
+    <div id="countdown"></div>
+    <script>
+        // Get the countdown duration in seconds from URL parameter (e.g., ?s=180)
+        const urlParams = new URLSearchParams(window.location.search);
+        const qSeconds = parseInt(urlParams.get('s')) + 3 || 25; // Default to 25 seconds if not specified, otherwise add 3s for leeway to input
+        const qAlarm = parseInt(urlParams.get('a')) || 0; // Default to alarm = 0 (off), valid numbers 1-5
+        const qVolume = parseInt(urlParams.get('v')) || 20; // Default to volume = 20%, valid numbers 0-100
+        const qTextColor = urlParams.get('c') || "FFF788"; // Default to FFF788 if not provided
+        const targetTime = new Date().getTime() + qSeconds * 1000;
+        
+        // adds # if it's missing
+        const cSanitizedColor = `#${qTextColor.replace(/^#/, '')}`;
+        
+        function isValidHexColor(pColor) {
+            const hexRegex = /^#[0-9A-Fa-f]{6}$/;
+            return hexRegex.test(pColor);
+        }
+        if (isValidHexColor(cSanitizedColor)) {
+            //Apply the specified text color to the text
+            document.getElementById('countdown').style.color = cSanitizedColor;
+        }
+
+        function playSound(pAlarm = 0, pVolume = 20) {
+            // Validate 'a' to be within the range 1-5
+            if (pAlarm >= 1 && pAlarm <= 2) {
+                const audioElement = new Audio(`sounds/${pAlarm}.mp3`);
+                audioElement.volume = pVolume / 100; // Convert v to a decimal value
+                audioElement.play();
+            }
+        }
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const vTimeRemaining = targetTime - now;
+            const vHours = Math.floor(vTimeRemaining / (1000 * 60 * 60));
+            const vMinutes = Math.floor((vTimeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+            const vSeconds = Math.floor((vTimeRemaining % (1000 * 60)) / 1000);
+
+            if (vHours > 0) {
+                document.getElementById('countdown').innerHTML = `<p>${vHours.toString().padStart(2, '0')}:${vMinutes.toString().padStart(2, '0')}:${vSeconds.toString().padStart(2, '0')}</p>`;
+                setTimeout(updateCountdown, 250); // Update every 250 ms for vHours
+            } else if (vMinutes > 0 || vSeconds > 19) {
+                document.getElementById('countdown').innerHTML = `<p>${vMinutes.toString().padStart(2, '0')}:${vSeconds.toString().padStart(2, '0')}</p>`;
+                setTimeout(updateCountdown, 250); // Update every 250 ms for 30s+
+            } else if (vTimeRemaining > 0) {
+                const vTenthseconds = Math.floor((vTimeRemaining / 100) % 10);
+                document.getElementById('countdown').innerHTML = `<p>${vSeconds.toString().padStart(1, '0')}.${vTenthseconds.toString().padStart(1, '0')}</p>`;
+                setTimeout(updateCountdown, 25); // Update every 25 ms for the last 20s
+            } else {
+                document.getElementById('countdown').innerHTML = `<p>0.0</p>`;
+                playSound(qAlarm, qVolume);
+            }
+        }
+
+        updateCountdown();
+    </script>
+</body>
+</html>
+
+<!--
+Sound Licenses
+Notification Bell and Water by SkyernAklea -- https://freesound.org/s/699705/ -- License: Attribution 4.0
+Notification Up II by FoolBoyMedia -- https://freesound.org/s/234563/ -- License: Attribution NonCommercial 4.0
+notification1-freesound.wav by Thoribass -- https://freesound.org/s/253595/ -- License: Attribution 4.0
+Piano Notification 1 by FoolBoyMedia -- https://freesound.org/s/352653/ -- License: Attribution NonCommercial 4.0
+Notification by DJenzyme -- https://freesound.org/s/454818/ -- License: Creative Commons 0
+Blip_C_07 by cabled_mess -- https://freesound.org/s/350860/ -- License: Creative Commons 0
+Phone.ogg by egomassive -- https://freesound.org/s/536748/ -- License: Creative Commons 0
+09156 accent chime login.wav by Robinhood76 -- https://freesound.org/s/528475/ -- License: Attribution NonCommercial 4.0
+notification by nevak36 -- https://freesound.org/s/727989/ -- License: Creative Commons 0
+-->
