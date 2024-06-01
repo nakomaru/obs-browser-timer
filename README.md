@@ -33,8 +33,10 @@ simple 2 minute timer with default settings -> [timer.html?s=120](https://nakoma
 
 1 hour timer, white text -> [timer.html?c=FFFFFF&s=3600](https://nakomaru.github.io/obs-browser-timer/timer.html?c=FFFFFF&s=3600)
 
-License
+# Licenses
 
-    1.mp3 -> notification1-freesound.wav by Thoribass - [Link](https://freesound.org/s/253595) - License: Attribution 4.0
-    2.mp3 -> 09156 accent chime login.wav by Robinhood76 - [Link](https://freesound.org/s/528475/) - License: Attribution NonCommercial 4.0
-    Everything else -> CC0
+1.mp3 -> notification1-freesound.wav by Thoribass - [Link](https://freesound.org/s/253595) - License: Attribution 4.0
+
+2.mp3 -> 09156 accent chime login.wav by Robinhood76 - [Link](https://freesound.org/s/528475/) - License: Attribution NonCommercial 4.0
+
+Everything else -> CC0
