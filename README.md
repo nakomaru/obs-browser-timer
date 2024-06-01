@@ -3,7 +3,6 @@
 This is a simple transparent web timer designed to be used as a browser source in OBS. Does some automatic changing of formats when below 1 hour and below 20 seconds remaining.
 
 # Usage
-Basic Usage
 
 In OBS, add a new browser source and add an URL from the examples below.
 
